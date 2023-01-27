@@ -15,15 +15,16 @@ class Interface:
                 gr.Textbox("blueberry spaghetti", label="Prompt"),
                 gr.Textbox("42\n1337", lines=1,
                            label="Seed (new line seperated, must match batch length)"),
+                gr.Checkbox(False, label="Generate random seed"),
                 gr.Slider(1, 24, 1, step=1, label="Batch size"),
                 gr.Slider(1, 16, 1, step=1, label="# Batches"),
                 gr.Slider(10, 500, 50, step=1, label="# Inference Steps"),
                 gr.Slider(5.0, 15.0, 7.5, step=0.5, label="Guidance Scale"),
-                gr.Slider(512, 2048, 512, step=64, label="Height"),
-                gr.Slider(512, 2048, 512, step=64, label="Width"),
+                gr.Slider(512, 1024, 512, step=64, label="Height"),
+                gr.Slider(512, 1024, 512, step=64, label="Width"),
                 gr.Checkbox(False, label="Upsample"),
                 gr.Textbox(
-                    "./images", label="Output directory to save results to"),
+                    "./gdrive/MyDrive/work/23-01-diffusion-doc/01-72-test", label="Output directory to save results to"),
                 # gr.Checkbox(False, label='Push results to Hugging Face Hub'),
                 # gr.Textbox("", label='Hugging Face Repo ID to push images to'),
             ],
@@ -47,11 +48,11 @@ class Interface:
                 gr.Slider(1, 24, 1, step=1, label="Batch size"),
                 gr.Slider(10, 500, 50, step=1, label="# Inference Steps"),
                 gr.Slider(5.0, 15.0, 7.5, step=0.5, label="Guidance Scale"),
-                gr.Slider(512, 2048, 512, step=64, label="Height"),
-                gr.Slider(512, 2048, 512, step=64, label="Width"),
+                gr.Slider(512, 1024, 512, step=64, label="Height"),
+                gr.Slider(512, 1024, 512, step=64, label="Width"),
                 gr.Checkbox(False, label="Upsample"),
                 gr.Textbox(
-                    "./dreams", label="Output directory to save results to"),
+                    "./gdrive/MyDrive/work/23-01-diffusion-doc/01-72-test", label="Output directory to save results to"),
             ],
             outputs=gr.Video(),
         )
@@ -99,6 +100,7 @@ class Interface:
         self,
         prompt,
         seeds,
+        generate_random_seed,
         batch_size,
         num_batches,
         num_inference_steps,
@@ -114,6 +116,8 @@ class Interface:
             return "Single image generation is not supported for Flax yet. Go to the videos tab."
 
         seeds = [int(x.strip()) for x in seeds.split("\n") if x.strip()]
+        if generate_random_seed:
+            seeds = None
 
         image_filepaths = generate_images(
             self.pipeline,
