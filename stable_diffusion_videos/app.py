@@ -13,8 +13,8 @@ class Interface:
             self.fn_images,
             inputs=[
                 gr.Textbox("blueberry spaghetti", label="Prompt"),
-                gr.Textbox("42\n1337", lines=2,
-                           label="Seeds, separated by new line"),
+                gr.Textbox("42\n1337", lines=1,
+                           label="Seed (new line seperated, must match batch length)"),
                 gr.Slider(1, 24, 1, step=1, label="Batch size"),
                 gr.Slider(1, 16, 1, step=1, label="# Batches"),
                 gr.Slider(10, 500, 50, step=1, label="# Inference Steps"),
@@ -112,6 +112,9 @@ class Interface:
     ):
         if self.params is not None:
             return "Single image generation is not supported for Flax yet. Go to the videos tab."
+
+        seeds = [int(x.strip()) for x in seeds.split("\n") if x.strip()]
+
         image_filepaths = generate_images(
             self.pipeline,
             prompt,
