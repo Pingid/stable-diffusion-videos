@@ -45,10 +45,10 @@ class Interface:
                 ),
                 gr.Slider(3, 60, 5, step=1, label="Output Video FPS"),
                 gr.Slider(1, 24, 1, step=1, label="Batch size"),
-                gr.Slider(10, 100, 50, step=1, label="# Inference Steps"),
+                gr.Slider(10, 500, 50, step=1, label="# Inference Steps"),
                 gr.Slider(5.0, 15.0, 7.5, step=0.5, label="Guidance Scale"),
-                gr.Slider(512, 1024, 512, step=64, label="Height"),
-                gr.Slider(512, 1024, 512, step=64, label="Width"),
+                gr.Slider(512, 2048, 512, step=64, label="Height"),
+                gr.Slider(512, 2048, 512, step=64, label="Width"),
                 gr.Checkbox(False, label="Upsample"),
                 gr.Textbox(
                     "./dreams", label="Output directory to save results to"),
