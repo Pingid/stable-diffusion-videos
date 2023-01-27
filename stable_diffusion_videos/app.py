@@ -13,14 +13,17 @@ class Interface:
             self.fn_images,
             inputs=[
                 gr.Textbox("blueberry spaghetti", label="Prompt"),
+                gr.Textbox("42\n1337", lines=2,
+                           label="Seeds, separated by new line"),
                 gr.Slider(1, 24, 1, step=1, label="Batch size"),
                 gr.Slider(1, 16, 1, step=1, label="# Batches"),
-                gr.Slider(10, 100, 50, step=1, label="# Inference Steps"),
+                gr.Slider(10, 500, 50, step=1, label="# Inference Steps"),
                 gr.Slider(5.0, 15.0, 7.5, step=0.5, label="Guidance Scale"),
-                gr.Slider(512, 1024, 512, step=64, label="Height"),
-                gr.Slider(512, 1024, 512, step=64, label="Width"),
+                gr.Slider(512, 2048, 512, step=64, label="Height"),
+                gr.Slider(512, 2048, 512, step=64, label="Width"),
                 gr.Checkbox(False, label="Upsample"),
-                gr.Textbox("./images", label="Output directory to save results to"),
+                gr.Textbox(
+                    "./images", label="Output directory to save results to"),
                 # gr.Checkbox(False, label='Push results to Hugging Face Hub'),
                 # gr.Textbox("", label='Hugging Face Repo ID to push images to'),
             ],
@@ -35,7 +38,8 @@ class Interface:
                     lines=2,
                     label="Prompts, separated by new line",
                 ),
-                gr.Textbox("42\n1337", lines=2, label="Seeds, separated by new line"),
+                gr.Textbox("42\n1337", lines=2,
+                           label="Seeds, separated by new line"),
                 gr.Slider(
                     3, 1000, 5, step=1, label="# Interpolation Steps between prompts"
                 ),
@@ -46,7 +50,8 @@ class Interface:
                 gr.Slider(512, 1024, 512, step=64, label="Height"),
                 gr.Slider(512, 1024, 512, step=64, label="Width"),
                 gr.Checkbox(False, label="Upsample"),
-                gr.Textbox("./dreams", label="Output directory to save results to"),
+                gr.Textbox(
+                    "./dreams", label="Output directory to save results to"),
             ],
             outputs=gr.Video(),
         )
@@ -93,6 +98,7 @@ class Interface:
     def fn_images(
         self,
         prompt,
+        seeds,
         batch_size,
         num_batches,
         num_inference_steps,
@@ -111,6 +117,7 @@ class Interface:
             prompt,
             batch_size=batch_size,
             num_batches=num_batches,
+            seeds=seeds,
             num_inference_steps=num_inference_steps,
             guidance_scale=guidance_scale,
             output_dir=output_dir,
